@@ -1,0 +1,37 @@
+name: "Download File"
+description: "Download a file from a given URL"
+inputs:
+  github-repo:
+    description: "The GitHub repository to download the file from"
+    required: true
+  osArch:
+    description: "The OS architecture to download the file for"
+    required: true
+  auth-token:
+    description: "The GitHub auth token to use for downloading the file"
+    required: true
+  output-dir:
+    description: "The local directory path to save the downloaded file"
+    required: true
+  tf-token:
+    description: "The Terraform Registry token to use"
+    required: true
+  gpg-key:
+    description: "The GPG key to use for verifying the file"
+    required: true
+  tf-url:
+    description: "The Terraform Registry URL to use"
+    required: true
+  provider:
+    description: "The provider to Use"
+    required: true
+  createProvider:
+    description: "Create the provider"
+    required: false
+outputs:
+  downloaded-file-path:
+    description: "The local file path of the downloaded file"
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
+
