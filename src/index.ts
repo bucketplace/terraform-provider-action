@@ -1,5 +1,4 @@
 import * as core from "@actions/core";
-import {createRegistryProvider} from "./createRegistryProvider";
 import {createRegistryProviderVersion, uploadSHA256Files} from "./createRegistryProviderVersion";
 import {getAssetDownloadUrls, getLatestRelease} from "./assetDownload";
 import {downloadAssets} from "./assetDownload";
@@ -15,21 +14,18 @@ async function run() {
     const gpgKey = core.getInput('gpg-key', {required: true})
     const tfUrl = core.getInput('tf-url', {required: true})
     const provider = core.getInput('provider', {required: true})
-    const creatProvider = core.getInput('create-provider', {required: false})
     const osArchPairs = core
       .getInput('osArch', {required: true})
       .split(',')
       .map(pair => pair.trim())
 
-    if (creatProvider === 'true') {
-      await createRegistryProvider(tfToken, provider)
-    }
 
     const latestRelease = await getLatestRelease(githubRepo, authToken)
     const tag = latestRelease.tag_name.split('v')[1]
 
     const {shasumsUpload, shasumsSigUpload} =
       await createRegistryProviderVersion(tfToken, tag, gpgKey, tfUrl, provider)
+    console.log('Registry provider created successfully')
 
     const result = await getAssetDownloadUrls(latestRelease, tag, githubRepo, authToken, osArchPairs)
     const {repoName, assets} = result

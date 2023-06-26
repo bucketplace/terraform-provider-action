@@ -14632,35 +14632,6 @@ axios.default = axios;
 // this module should only have a default export
 /* harmony default export */ const lib_axios = (axios);
 
-;// CONCATENATED MODULE: ./src/createRegistryProvider.ts
-
-async function createRegistryProvider(tfToken, provider) {
-    const url = 'https://app.terraform.io/api/v2/organizations/bucketplace/registry-providers';
-    const payload = {
-        data: {
-            type: 'registry-providers',
-            attributes: {
-                name: provider,
-                namespace: 'bucketplace',
-                'registry-name': 'private'
-            }
-        }
-    };
-    try {
-        const response = await lib_axios.post(url, payload, {
-            headers: {
-                Authorization: `Bearer ${tfToken}`,
-                'Content-Type': 'application/vnd.api+json'
-            }
-        });
-        console.log(response.data);
-    }
-    catch (error) {
-        const axiosError = error;
-        console.error(`Error creating registry provider: ${axiosError.message}`);
-    }
-}
-
 // EXTERNAL MODULE: external "fs"
 var external_fs_ = __nccwpck_require__(7147);
 var external_fs_default = /*#__PURE__*/__nccwpck_require__.n(external_fs_);
@@ -17016,7 +16987,6 @@ async function uploadBinary(outputDir, fileName, uploadUrl) {
 
 
 
-
 async function run() {
     try {
         const githubRepo = core.getInput('github-repo', { required: true });
@@ -17026,16 +16996,13 @@ async function run() {
         const gpgKey = core.getInput('gpg-key', { required: true });
         const tfUrl = core.getInput('tf-url', { required: true });
         const provider = core.getInput('provider', { required: true });
-        const creatProvider = core.getInput('create-provider', { required: false });
         const osArchPairs = core.getInput('osArch', { required: true })
             .split(',')
             .map(pair => pair.trim());
-        if (creatProvider === 'true') {
-            await createRegistryProvider(tfToken, provider);
-        }
         const latestRelease = await getLatestRelease(githubRepo, authToken);
         const tag = latestRelease.tag_name.split('v')[1];
         const { shasumsUpload, shasumsSigUpload } = await createRegistryProviderVersion(tfToken, tag, gpgKey, tfUrl, provider);
+        console.log('Registry provider created successfully');
         const result = await getAssetDownloadUrls(latestRelease, tag, githubRepo, authToken, osArchPairs);
         const { repoName, assets } = result;
         await downloadAssets(githubRepo, assets, outputDir, authToken);
