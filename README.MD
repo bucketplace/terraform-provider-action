@@ -18,7 +18,7 @@ jobs:
       uses: bucketplace/terraform-provider-action@v1
       with:
         github-repo: ${{ github.repository }}
-        osArch: 'darwin_arm64, darwin_arm64'
+        osArch: 'darwin_arm64, linux_amd64'
         auth-token: ${{ secrets.GITHUB_TOKEN }}
         output-dir: 'download'
         tf-token: ${{ secrets.TF_TOKEN }}
