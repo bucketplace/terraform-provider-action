@@ -1,6 +1,5 @@
 # Bucketplace/terraform-provider-action 사용 가이드
 
-## 소개
 이 문서는 Bucketplace에서 제공하는 terraform provider를 GitHub Actions에서 사용하기 위한 가이드입니다.
 
 ### 사용 예시

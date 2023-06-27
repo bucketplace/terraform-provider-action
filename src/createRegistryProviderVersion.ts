@@ -69,7 +69,7 @@ export async function uploadSHA256Files(
   try {
     const shasumsFileData = fs.createReadStream(shasumsFile)
     await axios.put(shasumsUpload, shasumsFileData)
-    
+
     const shasumsSigFileData = fs.createReadStream(shasumsSigFile)
     await axios.put(shasumsSigUpload, shasumsSigFileData)
 
