@@ -14672,17 +14672,15 @@ async function createRegistryProviderVersion(tfToken, tag, gpgKey, tfUrl, provid
         else {
             console.error('Error creating registry provider version: An unknown error occurred.');
         }
-        throw error; // 캐치된 오류를 던집니다.
+        throw error;
     }
 }
 async function uploadSHA256Files(shasumsUpload, shasumsSigUpload, outputDir, repoName, tag) {
     const shasumsFile = `${outputDir}/${repoName}_${tag}_SHA256SUMS`;
     const shasumsSigFile = `${outputDir}/${repoName}_${tag}_SHA256SUMS.sig`;
     try {
-        // shasumsFile 업로드
         const shasumsFileData = external_fs_default().createReadStream(shasumsFile);
         await lib_axios.put(shasumsUpload, shasumsFileData);
-        // shasumsSigFile 업로드
         const shasumsSigFileData = external_fs_default().createReadStream(shasumsSigFile);
         await lib_axios.put(shasumsSigUpload, shasumsSigFileData);
         console.log('Files uploaded successfully');

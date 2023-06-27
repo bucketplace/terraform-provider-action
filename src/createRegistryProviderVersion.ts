@@ -52,7 +52,7 @@ export async function createRegistryProviderVersion(
         'Error creating registry provider version: An unknown error occurred.'
       )
     }
-    throw error // 캐치된 오류를 던집니다.
+    throw error
   }
 }
 
@@ -67,11 +67,9 @@ export async function uploadSHA256Files(
   const shasumsSigFile = `${outputDir}/${repoName}_${tag}_SHA256SUMS.sig`
 
   try {
-    // shasumsFile 업로드
     const shasumsFileData = fs.createReadStream(shasumsFile)
     await axios.put(shasumsUpload, shasumsFileData)
-
-    // shasumsSigFile 업로드
+    
     const shasumsSigFileData = fs.createReadStream(shasumsSigFile)
     await axios.put(shasumsSigUpload, shasumsSigFileData)
 
